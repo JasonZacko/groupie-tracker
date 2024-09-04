@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"server/loaders"
+	"strconv"
 	"strings"
 )
 
@@ -20,12 +21,17 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id, err := GetArtistsFromURL(r.URL.Path)
-	fmt.Println(id)
 	if err != nil {
 		//http.RedirectHandler("/error400", http.StatusInternalServerError)
 		panic(err)
 	}
-	if id > "52" || id < "1" {
+	//fmt.Println(id)
+	str, err1 := strconv.Atoi(id)
+	if err1 != nil {
+		panic(err1)
+	}
+	fmt.Println(str)
+	if str > 52 || str < 1 {
 		fmt.Println("Erreur: id de l'artiste invalide")
 		http.Redirect(w, r, "/error400", http.StatusTemporaryRedirect)
 		return
